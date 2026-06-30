@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wasaa English — Apprends l'anglais du Lycée nigérien</title>
+<meta name="description" content="Application interactive pour apprendre l'anglais selon le programme officiel du Lycée nigérien (Seconde, Première, Terminale).">
+
+<!-- Polices -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+
+<!-- Styles -->
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/path.css">
+<link rel="stylesheet" href="css/lesson.css">
+<link rel="stylesheet" href="css/profile.css">
+</head>
+<body>
+
+<div class="app-shell" id="app">
+
+  <!-- ============================================================
+       TOAST CONTAINER (notifications flottantes)
+       ============================================================ -->
+  <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+  <!-- ============================================================
+       ÉCRAN 1 : ACCUEIL (Home)
+       ============================================================ -->
+  <section class="screen" id="screen-home">
+
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <div class="brand">
+          <span class="brand-mark" id="iconCompassHolder"></span>
+          <span>Wasaa English</span>
+        </div>
+        <div class="topbar-stats">
+          <div class="stat-chip xp"><span id="iconBoltHolder"></span><span id="homeXpDisplay">0 XP</span></div>
+          <div class="stat-chip streak"><span id="iconFlameHolder"></span><span id="homeStreakDisplay">0 jour</span></div>
+          <button class="btn btn-secondary" id="btnGoProfile" style="padding:10px 18px;">
+            <span id="iconUserHolder"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-pattern sahel-pattern"></div>
+      <div class="hero-glow"></div>
+      <div class="hero-glow secondary"></div>
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <span class="hero-eyebrow" id="iconSparklesText">Programme officiel du Niger</span>
+          <h1 class="hero-title">Apprends l'anglais comme on traverse <em>le Sahel</em> : pas à pas, jusqu'au bac.</h1>
+          <p class="hero-subtitle">Wasaa English transforme le programme officiel d'anglais du Lycée nigérien (Seconde, Première, Terminale) en un parcours interactif, amusant et qui garde ta progression — même si tu fermes le site.</p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" id="btnStartLearning">Commencer à apprendre</button>
+            <button class="btn btn-secondary" id="btnHowItWorks">Comment ça marche ?</button>
+          </div>
+          <div class="hero-trust">
+            <div class="hero-trust-item"><strong>3</strong><span>niveaux (2nd, 1ère, Tle)</span></div>
+            <div class="hero-trust-item"><strong>26</strong><span>unités thématiques</span></div>
+            <div class="hero-trust-item"><strong>100%</strong><span>conforme au programme</span></div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-visual-card" id="heroPathVisual"><!-- injecté en JS --></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="why-section">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Pourquoi Wasaa English</span>
+          <h2>Conçu pour les lycéens du Niger, par et pour le Niger</h2>
+          <p>Chaque leçon reprend fidèlement les structures grammaticales, le vocabulaire et les fonctions de communication du programme officiel.</p>
+        </div>
+        <div class="why-grid">
+          <div class="why-card">
+            <div class="why-card-icon" id="iconFlagHolder"></div>
+            <h3>Fidèle au programme officiel</h3>
+            <p>Chaque unité correspond exactement aux syllabus de Seconde, Première et Terminale (séries A et C/D) du Ministère.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-card-icon" id="iconRefreshHolder"></div>
+            <h3>Ta progression est sauvegardée</h3>
+            <p>Ton avancement, tes points d'expérience et tes badges restent enregistrés sur cet appareil, même après avoir fermé le site.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-card-icon" id="iconSparkHolder"></div>
+            <h3>Apprentissage actif et amusant</h3>
+            <p>Choix multiples, textes à trous, association de mots, phrases à reconstituer : on apprend en pratiquant, pas en lisant.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="levels-section" id="levelsSection">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Ton parcours</span>
+          <h2>Choisis ta classe</h2>
+          <p>Termine un niveau pour débloquer le suivant — ou explore librement si tu veux réviser.</p>
+        </div>
+        <div class="levels-grid" id="levelsGrid"><!-- injecté en JS --></div>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>Wasaa English — un outil pédagogique au service des élèves nigériens. Programme : Ministère de l'Éducation Nationale, Second Cycle.</p>
+      </div>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       ÉCRAN 2 : PARCOURS D'UN NIVEAU (Path)
+       ============================================================ -->
+  <section class="screen" id="screen-path">
+    <div class="path-header" id="pathHeaderBg">
+      <div class="sahel-pattern" style="opacity:.25"></div>
+      <div class="container path-header-inner">
+        <div class="path-title-block">
+          <button class="path-header-back" id="btnBackToHome">
+            <span id="iconArrowLeftHolder1"></span> Retour à l'accueil
+          </button>
+          <h1 id="pathLevelTitle">Seconde</h1>
+          <p id="pathLevelSubtitle">Premier pas vers la maîtrise</p>
+        </div>
+        <div class="path-header-progress">
+          <div class="ring-row">
+            <svg class="path-progress-ring" viewBox="0 0 60 60">
+              <circle class="bg" cx="30" cy="30" r="26" fill="none" stroke-width="6"/>
+              <circle class="fg" id="pathProgressRingFg" cx="30" cy="30" r="26" fill="none" stroke-width="6" stroke-linecap="round" transform="rotate(-90 30 30)"/>
+            </svg>
+            <div>
+              <strong id="pathProgressPercent">0%</strong>
+              <span id="pathProgressCount">0 / 0 leçons</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="path-body">
+      <div class="container" id="pathUnitsContainer"><!-- injecté en JS --></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ÉCRAN 3 : INTRODUCTION DE LECON
+       ============================================================ -->
+  <section class="screen" id="screen-lesson-intro">
+    <div class="lesson-screen">
+      <div class="lesson-topbar">
+        <button class="lesson-close" id="btnCloseLessonIntro"><span id="iconCrossHolder1"></span></button>
+        <div class="lesson-progress-track"><div class="lesson-progress-fill" style="width:0%"></div></div>
+      </div>
+      <div class="lesson-main">
+        <div class="lesson-intro-card">
+          <div class="lesson-intro-icon" id="lessonIntroIcon"></div>
+          <h2 id="lessonIntroTitle">Titre de la leçon</h2>
+          <p id="lessonIntroText">Description pédagogique de la leçon.</p>
+          <div class="lesson-intro-meta">
+            <div class="lesson-intro-meta-item"><span id="iconBoltHolder2"></span><span id="lessonIntroXp">20 XP</span></div>
+            <div class="lesson-intro-meta-item"><span id="iconLayersHolder"></span><span id="lessonIntroCount">5 exercices</span></div>
+          </div>
+          <button class="btn btn-primary btn-block" id="btnStartLesson">Démarrer la leçon</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ÉCRAN 4 : LECON EN COURS (exercices)
+       ============================================================ -->
+  <section class="screen" id="screen-lesson">
+    <div class="lesson-screen">
+      <div class="lesson-topbar">
+        <button class="lesson-close" id="btnCloseLesson"><span id="iconCrossHolder2"></span></button>
+        <div class="lesson-progress-track"><div class="lesson-progress-fill" id="lessonProgressFill" style="width:0%"></div></div>
+        <div class="lesson-hearts" id="lessonHearts"></div>
+      </div>
+      <div class="lesson-main">
+        <div class="exercise-card" id="exerciseCard"><!-- injecté en JS --></div>
+      </div>
+      <div class="lesson-footer">
+        <div class="lesson-footer-inner">
+          <div class="feedback-banner" id="feedbackBanner">
+            <div class="feedback-icon" id="feedbackIcon"></div>
+            <div class="feedback-text">
+              <strong id="feedbackTitle">Correct !</strong>
+              <p id="feedbackExplanation"></p>
+            </div>
+          </div>
+          <div class="lesson-footer-actions">
+            <button class="btn btn-primary btn-block" id="btnCheckOrContinue">Vérifier</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ÉCRAN 5 : RESULTATS DE LECON
+       ============================================================ -->
+  <section class="screen" id="screen-result">
+    <div class="lesson-screen" style="background:var(--color-sand);">
+      <div class="lesson-main">
+        <div class="result-card">
+          <div class="result-burst"><span id="iconTrophyHolder"></span></div>
+          <h2 id="resultTitle">Leçon terminée !</h2>
+          <p class="result-sub" id="resultSubtitle">Excellent travail.</p>
+          <div class="result-stats">
+            <div class="result-stat"><strong id="resultScore">100%</strong><span>Score</span></div>
+            <div class="result-stat"><strong id="resultXp">+20</strong><span>XP gagnés</span></div>
+            <div class="result-stat"><strong id="resultStreak">1</strong><span>Jours de suite</span></div>
+          </div>
+          <div class="result-actions">
+            <button class="btn btn-primary btn-block" id="btnContinuePath">Continuer le parcours</button>
+            <button class="btn btn-secondary btn-block" id="btnRetryLesson">Refaire la leçon</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ÉCRAN 6 : PROFIL
+       ============================================================ -->
+  <section class="screen" id="screen-profile">
+    <header class="profile-header">
+      <div class="sahel-pattern" style="opacity:.2"></div>
+      <div class="container profile-header-inner">
+        <div class="profile-avatar" id="profileAvatarInitial">E</div>
+        <div>
+          <h1>Mon profil</h1>
+          <p class="profile-sub" id="profileMemberSince">Apprenant Wasaa English</p>
+        </div>
+        <div class="profile-quickstats">
+          <div class="qstat"><strong id="profileXp">0</strong><span>XP total</span></div>
+          <div class="qstat"><strong id="profileStreak">0</strong><span>Série (jours)</span></div>
+          <div class="qstat"><strong id="profileLessons">0</strong><span>Leçons</span></div>
+          <div class="qstat"><strong id="profileBadgesCount">0</strong><span>Badges</span></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="profile-body">
+      <div class="container">
+
+        <button class="path-header-back" id="btnBackToHomeFromProfile" style="color:var(--color-ink-soft); margin-bottom: var(--space-6);">
+          <span id="iconArrowLeftHolder2"></span> Retour à l'accueil
+        </button>
+
+        <div class="profile-section">
+          <h2>Progression par niveau</h2>
+          <div class="levels-overview" id="profileLevelsOverview"><!-- injecté en JS --></div>
+        </div>
+
+        <div class="profile-section">
+          <h2>Badges</h2>
+          <div class="badges-grid" id="profileBadgesGrid"><!-- injecté en JS --></div>
+        </div>
+
+        <div class="profile-section">
+          <h2>Paramètres</h2>
+          <div class="settings-card">
+            <div class="settings-row">
+              <div class="settings-row-label">
+                <span id="iconVolumeHolder"></span>
+                <div>Sons de l'application<div class="settings-row-desc">Active les effets sonores lors des bonnes réponses.</div></div>
+              </div>
+              <button class="toggle-switch is-on" id="toggleSound"></button>
+            </div>
+            <div class="settings-row">
+              <div class="settings-row-label">
+                <span id="iconBellHolder"></span>
+                <div>Animations réduites<div class="settings-row-desc">Réduit les animations si elles te distraient.</div></div>
+              </div>
+              <button class="toggle-switch" id="toggleReduceMotion"></button>
+            </div>
+          </div>
+          <div class="settings-actions">
+            <button class="btn btn-secondary" id="btnExportData"><span id="iconDownloadHolder"></span>&nbsp; Exporter ma progression</button>
+            <button class="btn btn-secondary" id="btnImportData"><span id="iconUploadHolder"></span>&nbsp; Importer une sauvegarde</button>
+            <input type="file" id="importFileInput" accept=".json" class="visually-hidden">
+          </div>
+
+          <div class="danger-zone">
+            <h3>Zone sensible</h3>
+            <p>Réinitialiser ta progression effacera définitivement tous tes scores, XP et badges sur cet appareil. Cette action est irréversible.</p>
+            <button class="btn btn-danger" id="btnResetProgress"><span id="iconTrashHolder"></span>&nbsp; Réinitialiser ma progression</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation basse (mobile) -->
+  <nav class="bottom-nav" id="bottomNav">
+    <a href="#" class="bottom-nav-item is-active" data-nav="home"><span id="iconHouseHolder"></span>Accueil</a>
+    <a href="#" class="bottom-nav-item" data-nav="profile"><span id="iconUserHolder2"></span>Profil</a>
+  </nav>
+
+</div>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script src="data/curriculum.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/progress.js"></script>
+<script src="js/exercises.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
